@@ -37,25 +37,24 @@ for tr in table_data.find("tbody").find_all("tr"):
 
 print(links)
 print(len(links))
-    
+
 df = pd.DataFrame(data,columns=columns)
 df.to_excel("Asif.xlsx", index=False)
 linked_data = []
 
 for i in range(len(links)):
-    driver.get(links[i][0])
-    soup_next = BeautifulSoup(driver.page_source, 'html.parser')
+        driver.get(links[i][0])
+        soup_next = BeautifulSoup(driver.page_source, 'html.parser')
 #     print(soup_next.title.text)
-    link_table_data = soup_next.find("table", {"class": "table table-striped"})
-    # link_columns = [i.get_text(strip=True) for i in link_table_data.find_all("th")]
-    temp = []
-    for tr in link_table_data.find("tbody").find_all("tr"):
-        # linked_data.append([td.get_text(strip=True) for td in tr.find("td")])
-        for td in tr.find_all("td"):
-            temp.append(td.get_text(strip=True))
-    linked_data.append(temp)
+        link_table_data = soup_next.find("table", {"class": "table table-striped"})
+        # link_columns = [i.get_text(strip=True) for i in link_table_data.find_all("th")]
+        temp = []
+        for tr in link_table_data.find("tbody").find_all("tr"):
+                        # linked_data.append([td.get_text(strip=True) for td in tr.find("td")])
+                temp.extend(td.get_text(strip=True) for td in tr.find_all("td"))
+        linked_data.append(temp)
 
-    
+
 # print(link_columns)
 print(linked_data)
 print(len(linked_data))

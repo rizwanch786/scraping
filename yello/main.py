@@ -79,10 +79,7 @@ def getCompaniesData():
         pagesNumbers = soup.find('div', {'class': 'pages_container_top'})
         try:
             p_no = pagesNumbers.find('strong').text
-            pages = ''
-            for n in range(len(p_no)):
-                if p_no[n] != ',':
-                    pages += p_no[n]
+            pages = ''.join(p_no[n] for n in range(len(p_no)) if p_no[n] != ',')
             print(int(pages))
             pages = int(pages)
             pg = np.arange(1, (pages/30) + 1, 1)
@@ -91,7 +88,7 @@ def getCompaniesData():
                 soup1 = BeautifulSoup(driver.page_source, 'html.parser')
                 listing = soup1.find('div', {'id':'listings'})
                 # print(listing)
-                
+
                 for div in listing.find_all('div', {'class':'company'}):
                     try:
                         for h4 in div.find_all('h4'):

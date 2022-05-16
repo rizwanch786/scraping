@@ -10,16 +10,23 @@ def get_links():
     driver.get("https://opensea.io/collection/jordannft")
     time.sleep(10)
     driver.maximize_window()
-    i = 400
     links = []
     s = 300
-    while i>0:
+    for _ in range(400, 0, -1):
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         # time.sleep(2)
         main_div = soup.find("div", {"class":"AssetSearchView--results collection--results"})
-        for a in main_div.find_all('a', {'class': 'styles__StyledLink-sc-l6elh8-0 ekTmzq Asset--anchor'}, href=True):
-            links.append(f"https://opensea.io//{a['href']}") 
-        i -= 1
+        links.extend(
+            f"https://opensea.io//{a['href']}"
+            for a in main_div.find_all(
+                'a',
+                {
+                    'class': 'styles__StyledLink-sc-l6elh8-0 ekTmzq Asset--anchor'
+                },
+                href=True,
+            )
+        )
+
         driver.execute_script(f"window.scrollTo(0, {s})")
         s += 200
         print(set(links))

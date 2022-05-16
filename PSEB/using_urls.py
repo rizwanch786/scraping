@@ -24,11 +24,10 @@ for i in range(1850, 1900):
     table_row = table_body.find_all('tr')
     temp = []
     for tr in table_row:
-        for td in tr.find_all("td"):
-            temp.append(td.get_text(strip=True))
+        temp.extend(td.get_text(strip=True) for td in tr.find_all("td"))
     linked_data.append(temp)
 
-    
+
 print(linked_data)
 print(len(linked_data))
 df1 = pd.DataFrame(linked_data,columns=['Address', 'City', 'Phone', 'Email', 'Contact Person', 'Designation','Contacts', 'URL'])

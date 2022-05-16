@@ -23,11 +23,13 @@ while i > 0:
     table_data = soup.find("table", {"class": "dataTable"})
     columns = [i.get_text(strip=True) for i in table_data.find_all("th")]
     print(columns)
-   
+
     for tr in table_data.find("tbody").find_all("tr"):
-            data.append([td.get_text(strip=True) for td in tr.find_all("td")])
-            for a in tr.find_all('a', href=True):
-                links.append(f"https://pseb.org.pk/app/{a['href']}")
+        data.append([td.get_text(strip=True) for td in tr.find_all("td")])
+        links.extend(
+            f"https://pseb.org.pk/app/{a['href']}"
+            for a in tr.find_all('a', href=True)
+        )
 
     print(data)
     print(len(data))
@@ -44,7 +46,7 @@ df.to_excel("total_records.xlsx", index=False)
 
 print(links)
 print(len(links))
-      
+
 # get next data
 linked_data = []
 
@@ -56,11 +58,10 @@ for i in range(len(links)):
     link_table_data = soup_next.find("table", {"class": "table table-striped"})
     temp = []
     for tr in link_table_data.find("tbody").find_all("tr"):
-        for td in tr.find_all("td"):
-            temp.append(td.get_text(strip=True))
+        temp.extend(td.get_text(strip=True) for td in tr.find_all("td"))
     linked_data.append(temp)
 
-    
+
 # print(linked_data)
 print(len(linked_data))
 

@@ -3,6 +3,8 @@ from selenium.webdriver.common import keys
 from selenium.webdriver.common.by import By
 import time
 
+from selenium.webdriver.support.ui import Select
+
 driver = webdriver.Firefox()
 driver.get('https://fs2.formsite.com/meherpavan/form2/index.html?1537702596407')
 # First Name
@@ -63,10 +65,24 @@ driver.find_element(by=By.XPATH, value='/html/body/form/div[2]/div[17]/table/tbo
 
 
 # Selection
-driver.find_element(by=By.ID, value='RESULT_RadioButton-9').click()
+dragdrop = driver.find_element(by=By.ID, value='RESULT_RadioButton-9').click()
 time.sleep(2)
 # select morning
 driver.find_element(by=By.XPATH, value='/html/body/form/div[2]/div[19]/select/option[2]').click()
+
+# dragdrop = driver.find_element(by=By.ID, value='RESULT_RadioButton-9')
+# drp = Select(dragdrop)
+# # # # # select by visible text
+# # # # drp.select_by_visible_text('Afternoon')
+# # # # select by index
+# # # drp.select_by_index(3)
+# # # select by value
+# # drp.select_by_value('Radio-1')
+# print(len(drp.options))
+# # capture all the options
+# all_options = drp.options
+# for option in all_options:
+#     print(option.text)
 time.sleep(2)
 # Upload Image
 driver.find_element(by=By.XPATH, value='//*[@id="q21"]').click()
